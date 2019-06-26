@@ -2,14 +2,11 @@ df.set_index(['Hour','UNIT']).sum(level=['Hour','UNIT'])
 ==
 df[df.columns.difference(['Hour','UNIT'])].groupby([df['Hour'],df['UNIT']]).sum()
 
+reset unstack
+
+append merge concate
 
 idxmax() no para level
-
-
-append
-
-
-
 
 
     # series = turnstile_weather['ENTRIESn_hourly'].groupby(turnstile_weather['Hour']).sum()
