@@ -1,0 +1,70 @@
+df.set_index(['Hour','UNIT']).sum(level=['Hour','UNIT'])
+==
+df[df.columns.difference(['Hour','UNIT'])].groupby([df['Hour'],df['UNIT']]).sum()
+
+
+idxmax() no para level
+
+
+append
+
+
+
+
+
+    # series = turnstile_weather['ENTRIESn_hourly'].groupby(turnstile_weather['Hour']).sum()
+
+    # data = series.reset_index()
+
+    # plot = ggplot(data, aes('Hour', 'ENTRIESn_hourly'))+geom_point()+geom_line()
+
+
+    
+    # df = turnstile_weather[['DATEn','ENTRIESn_hourly']]
+
+    # df['dayofweek'] = pandas.to_datetime(df['DATEn']).dt.dayofweek
+
+    # df = df.set_index('dayofweek')
+
+    # data = df.sum(level='dayofweek').reset_index()
+
+    # plot = ggplot(data, aes('dayofweek', 'ENTRIESn_hourly'))+geom_point()+geom_line()
+
+    
+
+    # series = turnstile_weather['ENTRIESn_hourly'].groupby(turnstile_weather['UNIT']).sum()
+
+    # data = series.reset_index()
+
+    # plot = ggplot(data, aes('UNIT', 'ENTRIESn_hourly'))+geom_point()+geom_line()
+
+    
+
+    # df = turnstile_weather[['Hour','UNIT','ENTRIESn_hourly','EXITSn_hourly']]
+
+    # df['entries'] = turnstile_weather['ENTRIESn_hourly'] - turnstile_weather['EXITSn_hourly']
+
+    # df = df.set_index(['Hour','UNIT']).sum(level=['Hour','UNIT'])
+
+    # data =df.reset_index()
+
+    # plot = ggplot(data, aes('UNIT', 'Hour', color='entries'))+ geom_point(size=5) +scale_color_gradient(low="red", high="green")
+
+    
+
+    df = turnstile_weather[['Hour','UNIT','ENTRIESn_hourly','EXITSn_hourly']]
+
+    df = df.groupby([df['Hour'],df['UNIT']]).sum()
+
+    df =  df.stack().unstack('UNIT')
+
+    s1 = df.idxmax(axis=1)
+
+    s2 = df.max(axis=1)
+    data = concat([s1,s2],axis =1)
+
+    data = data.reset_index()
+
+    data.rename(columns={'level_1':'exits or entries',0:'UNIT',1:'quantity'}, inplace = True)
+
+    plot = ggplot(data, aes('Hour', 'UNIT',size='quantity',color='exits or entries'))+geom_point()
